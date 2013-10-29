@@ -2,7 +2,7 @@
 
 function injectScript() {
     scriptElem = document.createElement('script');
-    scriptElem.src = 'http://pasopia7.sakura.ne.jp/mockDate/mockDate.js'
+    scriptElem.src = chrome.extension.getURL("mockDate.js")
     document.head.appendChild(scriptElem);
 }
 
