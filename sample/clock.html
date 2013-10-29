@@ -1,0 +1,17 @@
+<html>
+<head>
+ <title>Mock clock test</title>
+</head>
+<body>
+<span id=clock />
+<script>
+var clock = document.getElementById('clock');
+setInterval(function() {
+   clock.innerText = new Date().toString();
+}, 1000);
+</script>
+</body>
+</html>
+
+
+
