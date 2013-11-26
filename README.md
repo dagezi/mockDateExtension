@@ -5,10 +5,8 @@ It's a chrome extension to find time-triggered bugs, which won't appear until so
 ## BUGS
 It injects the mocking code after page layout has done. So scripts executed while layouting aren't affected by this mock.
 
-# TODO
+## TODO
 
-- Keep the setting over reload
-- Keep settings tab-wise
 - Create original icon
 - Refine layout of pop-up
 - Implement multiplier
