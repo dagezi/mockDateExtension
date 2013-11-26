@@ -13,6 +13,13 @@
 	"<all_urls>"
     ],
 
+    "content_scripts": [
+      {
+          "matches": ["<all_urls>"],
+          "js": ["injectMock.js"]
+      }
+    ],
+
     "browser_action": {
 	"default_icon": "icon.png",
 	"default_popup": "popup.html"

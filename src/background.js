@@ -16,35 +16,16 @@ function getTabSetting(tab) {
     return tabSettingTable[tab.id];
 }
 
-function injectScript(tab) {
-    injectDetails = {
-        file: "injectMock.js",
-        allFrames: false,
-        runAt: "document_end"};
-
-    chrome.tabs.executeScript(tab.id, injectDetails)
-}
-
-function onTabUpdated(id, details, tab)  {
-    if (details.status === "loading") {
-        injectScript(tab)
-    } else if (details.status === "complete") {
-        // TODO: how to tell current setting to web page?
-        // Doesn't work!
-        if (tabSettingTable[tab.id]) {
-            chrome.tabs.sendMessage(tab.id, tabSettingTable[tab.id])
-        }
-    }
-}
-
-chrome.tabs.onUpdated.addListener(onTabUpdated);
-
 chrome.runtime.onMessage.addListener(
     function(req, sender, sendResponse) {
-        console.log(sender.tab ?
-                    "from a content script:" + sender.tab.url :
-                    "from the extension");
-        if (!req || !req.tabId ) {
+        if (sender.tab) {
+            // Content script requests current setting
+            console.log("from a content script:" + req + " from " + sender.tab)
+
+            setting = tabSettingTable[sender.tab.id]
+            chrome.tabs.sendMessage(sender.tab.id, setting)
+
+        } else if (!req || !req.tabId ) {
             // Pop-up want to retrieve current setting
             chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
                 var tabId = tabs[0].id;

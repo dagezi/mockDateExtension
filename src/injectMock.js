@@ -1,13 +1,9 @@
 // Content script
 
 function injectScript() {
-    var script = document.getElementById('mo-ckda-te')
-    if (!script) {
-        scriptElem = document.createElement('script');
-        scriptElem.src = chrome.extension.getURL("mockDate.js");
-        scriptElem.id = 'mo-ckda-te';
-        document.head.appendChild(scriptElem);
-    }
+    scriptElem = document.createElement('script');
+    scriptElem.src = chrome.extension.getURL("mockDate.js");
+    document.head.appendChild(scriptElem);
 }
 
 function receiveSetting(request, sender, sendResponse) {
@@ -16,4 +12,6 @@ function receiveSetting(request, sender, sendResponse) {
 
 injectScript();
 chrome.runtime.onMessage.addListener(receiveSetting);
-    
+
+// Tell background page that new content loaded.
+chrome.runtime.sendMessage({pageLoaded: true});
