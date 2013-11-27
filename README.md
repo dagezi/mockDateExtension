@@ -9,4 +9,3 @@ It injects the mocking code after page layout has done. So scripts executed whil
 
 - Create original icon
 - Refine layout of pop-up
-- Implement multiplier
