@@ -44,8 +44,9 @@
 
         setting = event.data;
         if (setting.isMocking) {
-            origStartEpoch = OrigDate.now();
-            mockStartEpoch = setting.startEpoch;
+            origStartEpoch = setting.origStartEpoch;
+            mockStartEpoch = setting.mockStartEpoch;
+            multiplier = setting.multiplier;
             Date = MockDate;
         } else {
             Date = OrigDate;

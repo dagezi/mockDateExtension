@@ -1,6 +1,6 @@
 function getMockEpoch(setting) {
-    var diff = Date.now() - setting.startEpoch;
-    return setting.startEpoch + diff * setting.multiplier;
+    var diff = Date.now() - setting.origStartEpoch;
+    return setting.mockStartEpoch + diff * setting.multiplier;
 }
 
 function getDomElements(document) {
@@ -15,22 +15,30 @@ function getDomElements(document) {
 }
 
 function updaetCurrent() {
-    var currentEpoch = getMockEpoch(setting);
+    var currentEpoch;
+    if (setting.isMocking) {
+        currentEpoch = getMockEpoch(setting);
+    } else {
+        currentEpoch = Date.now();
+    }
     doms.current.innerText = new Date(currentEpoch).toLocaleString();
 }
 
 function populateSetting() {
     updaetCurrent();
     
-    startMoment = moment(setting.startEpoch);
+    startMoment = moment(setting.mockStartEpoch);
     doms.date.value = startMoment.format("YYYY-MM-DD");
     doms.time.value = startMoment.format("HH:mm");
+    doms.multiplier.value = setting.multiplier;
 }
 
 // Retreive settings from GUI and start mock clock
 function setAndStartMockDate() {
     startMoment = moment(doms.date.value + " " + doms.time.value);
-    setting.startEpoch = +startMoment;
+    setting.mockStartEpoch = +startMoment;
+    setting.origStartEpoch = Date.now();
+    setting.multiplier = +doms.multiplier.value;
     setting.isMocking = true;
 
     chrome.runtime.sendMessage(setting);
